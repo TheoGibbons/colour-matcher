@@ -76,9 +76,24 @@ function handleImageUpload(e) {
       document.getElementById('canvasContainer').style.display = 'block';
       document.getElementById('colorsSection').style.display = 'block';
 
-      // Clear any previous squares
+      // Clear any previous squares and analyzed colors
       squares = [];
+      analyzedColors = [];
       redrawSquares();
+
+      // Clear the results section
+      const squaresList = document.getElementById('squaresList');
+      if (squaresList) {
+        squaresList.innerHTML = '';
+      }
+
+      // Reset any matches in the color picker section
+      document.querySelectorAll('.match-result').forEach(result => {
+        result.style.display = 'none';
+      });
+
+      // Hide the results section until new squares are drawn
+      document.getElementById('resultsSection').style.display = 'none';
     };
     image.src = event.target.result;
   };
