@@ -251,7 +251,6 @@ function clearAllSquares() {
 
 function analyzeColor(imageData) {
   const pixels = imageData.data;
-  const pixelCount = pixels.length / 4; // RGBA values
 
   // Collect all pixels
   let allPixels = [];
@@ -585,6 +584,7 @@ function updateAverageColor() {
 
   // Create a visual display with the color swatch and hex value
   averageColorSpan.innerHTML = `
+    Average Colour Across All Squares:
     <span style="display: inline-block; vertical-align: middle; margin-left: 10px; background-color: ${avgColorHex}; width: 20px; height: 20px; border: 1px solid #ccc;"></span>
     <span style="margin-left: 5px; vertical-align: middle;">${avgColorHex}</span>
   `;

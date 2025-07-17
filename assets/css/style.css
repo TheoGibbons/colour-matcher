@@ -129,3 +129,13 @@ button:hover {
     color: #333;
     margin-top: 5px;
 }
+
+#average-color {
+    font-size: 0.5em;
+    font-weight: 100;
+    background: #f9f9f9;
+    border: 1px solid #4b4b4b;
+    border-radius: 4px;
+    padding: 7px 10px;
+    vertical-align: middle;
+}
