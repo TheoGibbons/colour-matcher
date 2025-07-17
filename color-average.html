@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Colour Average</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .color-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .color-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 100px;
+            font-family: monospace;
+        }
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result-preview {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ccc;
+            margin: 10px 0;
+        }
+        .invalid {
+            border: 2px solid red;
+        }
+        .remove-button {
+            background-color: #f44336;
+        }
+        .remove-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Colour Average</h1>
+
+    <div class="color-inputs" id="colorInputs">
+        <!-- Initial color input -->
+        <div class="color-input-row">
+            <input type="text" class="hex-input" placeholder="e.g. C9D451" maxlength="6" value="C9D451">
+            <div class="color-preview" style="background-color: #C9D451;"></div>
+            <button class="remove-button">Remove</button>
+        </div>
+    </div>
+
+    <button id="addColorButton">Add Colour</button>
+
+    <div class="result-container">
+        <h2>Average Colour</h2>
+        <div class="result-preview" id="resultPreview"></div>
+        <p>Hex: <span id="resultHex">#000000</span></p>
+        <p>RGB: <span id="resultRgb">rgb(0, 0, 0)</span></p>
+    </div>
+</div>
+
+<script>
+    // Get DOM elements
+    const colorInputs = document.getElementById('colorInputs');
+    const addColorButton = document.getElementById('addColorButton');
+    const resultPreview = document.getElementById('resultPreview');
+    const resultHex = document.getElementById('resultHex');
+    const resultRgb = document.getElementById('resultRgb');
+
+    // Add event listeners
+    addColorButton.addEventListener('click', addColorInput);
+
+    // Event delegation for dynamically added elements
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-button')) {
+            removeColorInput(e.target);
+        }
+    });
+
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('hex-input')) {
+            updateColorPreview(e.target);
+            calculateAverage();
+        }
+    });
+
+    // Initialize
+    calculateAverage();
+
+    // Functions
+    function addColorInput() {
+        const row = document.createElement('div');
+        row.className = 'color-input-row';
+
+        const randomColor = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
+
+        row.innerHTML = `
+            <input type="text" class="hex-input" placeholder="e.g. C9D451" maxlength="6" value="${randomColor}">
+            <div class="color-preview" style="background-color: #${randomColor};"></div>
+            <button class="remove-button">Remove</button>
+        `;
+
+        colorInputs.appendChild(row);
+        calculateAverage();
+    }
+
+    function removeColorInput(button) {
+        // Don't remove if it's the last input
+        if (document.querySelectorAll('.color-input-row').length <= 1) {
+            return;
+        }
+
+        const row = button.closest('.color-input-row');
+        row.remove();
+        calculateAverage();
+    }
+
+    function updateColorPreview(input) {
+        const hexValue = input.value.trim();
+        const preview = input.nextElementSibling;
+
+        // Validate hex format
+        if (/^[0-9A-Fa-f]{6}$/.test(hexValue)) {
+            input.classList.remove('invalid');
+            preview.style.backgroundColor = '#' + hexValue;
+        } else {
+            input.classList.add('invalid');
+            preview.style.backgroundColor = '#FFFFFF';
+        }
+    }
+
+    function calculateAverage() {
+        const inputs = document.querySelectorAll('.hex-input');
+        let totalR = 0, totalG = 0, totalB = 0;
+        let validCount = 0;
+
+        inputs.forEach(input => {
+            const hexValue = input.value.trim();
+
+            // Only include valid hex values
+            if (/^[0-9A-Fa-f]{6}$/.test(hexValue)) {
+                // Convert hex to RGB
+                const r = parseInt(hexValue.substring(0, 2), 16);
+                const g = parseInt(hexValue.substring(2, 4), 16);
+                const b = parseInt(hexValue.substring(4, 6), 16);
+
+                totalR += r;
+                totalG += g;
+                totalB += b;
+                validCount++;
+            }
+        });
+
+        if (validCount > 0) {
+            // Calculate average
+            const avgR = Math.round(totalR / validCount);
+            const avgG = Math.round(totalG / validCount);
+            const avgB = Math.round(totalB / validCount);
+
+            // Convert back to hex
+            const hexColor = rgbToHex(avgR, avgG, avgB);
+
+            // Update result display
+            resultPreview.style.backgroundColor = hexColor;
+            resultHex.textContent = hexColor;
+            resultRgb.textContent = `rgb(${avgR}, ${avgG}, ${avgB})`;
+        } else {
+            // No valid inputs
+            resultPreview.style.backgroundColor = '#000000';
+            resultHex.textContent = '#000000';
+            resultRgb.textContent = 'rgb(0, 0, 0)';
+        }
+    }
+
+    function rgbToHex(r, g, b) {
+        return '#' + [r, g, b].map(x => {
+            const hex = x.toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        }).join('').toUpperCase();
+    }
+</script>
+</body>
+</html>

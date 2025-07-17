@@ -8,6 +8,7 @@ let squares = [];
 let isDrawing = false;
 let startX, startY;
 let analyzedColors = [];
+let averageColorSpan = document.getElementById('average-color');
 
 // Load default image when page loads
 window.addEventListener('DOMContentLoaded', loadDefaultImage);
@@ -173,6 +174,9 @@ function endDrawingSquare(e) {
     redrawSquares();
     displayResults();
 
+    // Update the average color display
+    updateAverageColor();
+
     // Show the results section if not already visible
     document.getElementById('resultsSection').style.display = 'block';
 
@@ -221,14 +225,28 @@ function redrawSquares() {
 
 function undoLastSquare() {
   if (squares.length > 0) {
-    squares.pop();
+    const removedSquare = squares.pop();
+
+    // Remove the corresponding color from analyzedColors
+    analyzedColors = analyzedColors.filter(item => item.square.id !== removedSquare.id);
+
     redrawSquares();
+
+    // Update the average color display
+    updateAverageColor();
   }
 }
 
 function clearAllSquares() {
   squares = [];
+  analyzedColors = [];
   redrawSquares();
+
+  // Update the average color display
+  updateAverageColor();
+
+  // Also hide the results section
+  document.getElementById('resultsSection').style.display = 'none';
 }
 
 function analyzeColor(imageData) {
@@ -534,4 +552,40 @@ function loadDefaultImage() {
   };
 
   image.src = defaultImagePath;
+}
+
+// Function to calculate and display the average color of all squares
+function updateAverageColor() {
+  // Check if we have any analyzed colors
+  if (analyzedColors.length === 0) {
+    // No colors to average, clear the display
+    averageColorSpan.innerHTML = '';
+    return;
+  }
+
+  // Convert all hex colors to RGB for averaging
+  let totalR = 0, totalG = 0, totalB = 0;
+
+  analyzedColors.forEach(item => {
+    const rgb = hexToRgb(item.color);
+    if (rgb) {
+      totalR += rgb.r;
+      totalG += rgb.g;
+      totalB += rgb.b;
+    }
+  });
+
+  // Calculate the average RGB values
+  const avgR = Math.round(totalR / analyzedColors.length);
+  const avgG = Math.round(totalG / analyzedColors.length);
+  const avgB = Math.round(totalB / analyzedColors.length);
+
+  // Convert back to hex
+  const avgColorHex = rgbToHex(avgR, avgG, avgB);
+
+  // Create a visual display with the color swatch and hex value
+  averageColorSpan.innerHTML = `
+    <span style="display: inline-block; vertical-align: middle; margin-left: 10px; background-color: ${avgColorHex}; width: 20px; height: 20px; border: 1px solid #ccc;"></span>
+    <span style="margin-left: 5px; vertical-align: middle;">${avgColorHex}</span>
+  `;
 }
