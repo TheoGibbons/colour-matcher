@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Color Matcher</title>
+    <title>Colour Matcher</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 <div class="container">
-    <h1>Yarn Color Matcher</h1>
+    <h1>Colour Matcher</h1>
 
     <div>
-        <h2>Step 1: Upload Yarn Image</h2>
+        <h2>Step 1: Upload image of coloured items</h2>
         <input type="file" id="imageUpload" accept="image/*">
     </div>
 
     <div class="canvas-container" id="canvasContainer" style="display: none;">
-        <h2>Step 2: Draw Squares on Yarns</h2>
+        <h2>Step 2: Draw Squares around colours to match</h2>
         <div style="position: relative;">
             <canvas id="imageCanvas"></canvas>
             <canvas id="drawingCanvas"></canvas>
@@ -28,12 +28,12 @@
     </div>
 
     <div id="colorsSection" style="display: none;">
-        <h2>Step 3: Select Colors to Match</h2>
+        <h2>Step 3: Select Colours to Match</h2>
         <div class="color-inputs">
             <table class="color-table">
                 <thead>
                     <tr>
-                        <th>Color Picker</th>
+                        <th>Colour Picker</th>
                         <th>Preview</th>
                         <th>Hex Code</th>
                         <th>Actions</th>
@@ -55,7 +55,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button id="addColorButton" style="margin-top: 10px;">Add Another Color</button>
+            <button id="addColorButton" style="margin-top: 10px;">Add Another Colour</button>
         </div>
     </div>
 

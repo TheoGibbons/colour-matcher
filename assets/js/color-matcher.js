@@ -160,6 +160,9 @@ function endDrawingSquare(e) {
 
     // Show the results section if not already visible
     document.getElementById('resultsSection').style.display = 'block';
+
+    // Auto find closest matches whenever a new square is added
+    findColorMatches();
   }
 }
 
@@ -323,6 +326,11 @@ function addColorPicker() {
 
   // Add the new row to the table
   colorTableBody.appendChild(newRow);
+
+  // Auto find closest matches after adding a new color
+  if (analyzedColors.length > 0) {
+    findColorMatches();
+  }
 }
 
 function findColorMatches() {
@@ -430,34 +438,34 @@ function findColorMatches() {
         }
       }
 
-      // Also highlight in the canvas
-      drawingCtx.save();
-      drawingCtx.lineWidth = 4;
-      drawingCtx.strokeStyle = targetColor;
-      drawingCtx.strokeRect(
-        closestMatch.square.x - 4,
-        closestMatch.square.y - 4,
-        closestMatch.square.width + 8,
-        closestMatch.square.height + 8
-      );
+      // // Also highlight in the canvas
+      // drawingCtx.save();
+      // drawingCtx.lineWidth = 4;
+      // drawingCtx.strokeStyle = targetColor;
+      // drawingCtx.strokeRect(
+      //   closestMatch.square.x - 4,
+      //   closestMatch.square.y - 4,
+      //   closestMatch.square.width + 8,
+      //   closestMatch.square.height + 8
+      // );
 
       // Add percentage text near the highlighted square in the canvas
       const percentage = Math.round((1 - (closestDistance / MAX_DISTANCE)) * 100);
-      const text = `${percentage}%`;
-      drawingCtx.font = 'bold 14px Arial';
-      drawingCtx.fillStyle = 'white';
-      drawingCtx.fillRect(
-        closestMatch.square.x + closestMatch.square.width + 5,
-        closestMatch.square.y,
-        text.length * 10,
-        20
-      );
-      drawingCtx.fillStyle = 'black';
-      drawingCtx.fillText(
-        text,
-        closestMatch.square.x + closestMatch.square.width + 10,
-        closestMatch.square.y + 15
-      );
+      // const text = `${percentage}%`;
+      // drawingCtx.font = 'bold 14px Arial';
+      // drawingCtx.fillStyle = 'white';
+      // drawingCtx.fillRect(
+      //   closestMatch.square.x + closestMatch.square.width + 5,
+      //   closestMatch.square.y,
+      //   text.length * 10,
+      //   20
+      // );
+      // drawingCtx.fillStyle = 'black';
+      // drawingCtx.fillText(
+      //   text,
+      //   closestMatch.square.x + closestMatch.square.width + 10,
+      //   closestMatch.square.y + 15
+      // );
 
       drawingCtx.restore();
 
