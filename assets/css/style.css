@@ -1,0 +1,132 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.canvas-container {
+    position: relative;
+    margin-top: 20px;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    display: block;
+}
+
+#drawingCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: crosshair;
+}
+
+.controls {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.color-inputs {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Table styles */
+.color-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.color-table th,
+.color-table td {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+.color-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.color-item {
+    vertical-align: middle;
+}
+
+.color-preview {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.match-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.match-info {
+    font-size: 13px;
+    max-width: 200px;
+}
+
+/* Keep existing styles */
+.squares-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.square-item {
+    width: 80px;
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.square-color {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 5px;
+    border: 1px solid #ccc;
+}
+
+.square-item.matched {
+    border: 3px solid #FF5722;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.match-percentage {
+    font-size: 12px;
+    color: #333;
+    margin-top: 5px;
+}

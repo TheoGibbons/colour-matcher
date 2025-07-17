@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Color Matcher</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Yarn Color Matcher</h1>
+
+    <div>
+        <h2>Step 1: Upload Yarn Image</h2>
+        <input type="file" id="imageUpload" accept="image/*">
+    </div>
+
+    <div class="canvas-container" id="canvasContainer" style="display: none;">
+        <h2>Step 2: Draw Squares on Yarns</h2>
+        <div style="position: relative;">
+            <canvas id="imageCanvas"></canvas>
+            <canvas id="drawingCanvas"></canvas>
+        </div>
+
+        <div class="controls">
+            <button id="undoButton">Undo Last Square</button>
+            <button id="clearButton">Clear All Squares</button>
+        </div>
+    </div>
+
+    <div id="colorsSection" style="display: none;">
+        <h2>Step 3: Select Colors to Match</h2>
+        <div class="color-inputs">
+            <table class="color-table">
+                <thead>
+                    <tr>
+                        <th>Color Picker</th>
+                        <th>Preview</th>
+                        <th>Hex Code</th>
+                        <th>Actions</th>
+                        <th>Best Match</th>
+                    </tr>
+                </thead>
+                <tbody id="colorTableBody">
+                    <tr class="color-item">
+                        <td><input type="color" class="color-picker" value="#ff0000"></td>
+                        <td><div class="color-preview" style="background-color: #ff0000;"></div></td>
+                        <td><span class="color-hex">#ff0000</span></td>
+                        <td><button class="remove-color">Remove</button></td>
+                        <td>
+                            <div class="match-result" style="display: none;">
+                                <div class="match-preview" style="width: 30px; height: 30px; border: 1px solid #ccc; display: inline-block; margin: 0 5px;"></div>
+                                <span class="match-info"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="addColorButton" style="margin-top: 10px;">Add Another Color</button>
+        </div>
+    </div>
+
+    <div id="resultsSection" style="display: none;">
+        <h2>Results: Analyzed Squares</h2>
+        <div class="squares-list" id="squaresList"></div>
+    </div>
+</div>
+
+<script src="assets/js/color-matcher.js"></script>
+
+</body>
+</html>
