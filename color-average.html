@@ -30,10 +30,12 @@
             width: 100px;
             font-family: monospace;
         }
-        .color-preview {
+        input[type="color"] {
             width: 40px;
             height: 40px;
             border: 1px solid #ccc;
+            padding: 0;
+            cursor: pointer;
         }
         button {
             padding: 8px 16px;
@@ -76,8 +78,13 @@
     <div class="color-inputs" id="colorInputs">
         <!-- Initial color input -->
         <div class="color-input-row">
-            <input type="text" class="hex-input" placeholder="e.g. C9D451" maxlength="6" value="C9D451">
-            <div class="color-preview" style="background-color: #C9D451;"></div>
+            <input type="text" class="hex-input" placeholder="e.g. FF0000" maxlength="6" value="FF0000">
+            <input type="color" class="color-picker" value="#FF0000">
+            <button class="remove-button">Remove</button>
+        </div>
+        <div class="color-input-row">
+            <input type="text" class="hex-input" placeholder="e.g. FFFF00" maxlength="6" value="FFFF00">
+            <input type="color" class="color-picker" value="#FFFF00">
             <button class="remove-button">Remove</button>
         </div>
     </div>
@@ -112,7 +119,10 @@
 
     document.addEventListener('input', function(e) {
         if (e.target.classList.contains('hex-input')) {
-            updateColorPreview(e.target);
+            updateColorPickerFromHex(e.target);
+            calculateAverage();
+        } else if (e.target.classList.contains('color-picker')) {
+            updateHexFromColorPicker(e.target);
             calculateAverage();
         }
     });
@@ -129,7 +139,7 @@
 
         row.innerHTML = `
             <input type="text" class="hex-input" placeholder="e.g. C9D451" maxlength="6" value="${randomColor}">
-            <div class="color-preview" style="background-color: #${randomColor};"></div>
+            <input type="color" class="color-picker" value="#${randomColor}">
             <button class="remove-button">Remove</button>
         `;
 
@@ -155,11 +165,33 @@
         // Validate hex format
         if (/^[0-9A-Fa-f]{6}$/.test(hexValue)) {
             input.classList.remove('invalid');
-            preview.style.backgroundColor = '#' + hexValue;
+            preview.value = '#' + hexValue;
         } else {
             input.classList.add('invalid');
-            preview.style.backgroundColor = '#FFFFFF';
+            preview.value = '#FFFFFF';
         }
+    }
+
+    function updateColorPickerFromHex(input) {
+        const hexValue = input.value.trim();
+        const colorPicker = input.nextElementSibling;
+
+        // Validate hex format
+        if (/^[0-9A-Fa-f]{6}$/.test(hexValue)) {
+            input.classList.remove('invalid');
+            colorPicker.value = '#' + hexValue;
+        } else {
+            input.classList.add('invalid');
+            colorPicker.value = '#FFFFFF';
+        }
+    }
+
+    function updateHexFromColorPicker(colorPicker) {
+        const hexValue = colorPicker.value.slice(1).toUpperCase();
+        const hexInput = colorPicker.previousElementSibling;
+
+        hexInput.value = hexValue;
+        calculateAverage();
     }
 
     function calculateAverage() {
