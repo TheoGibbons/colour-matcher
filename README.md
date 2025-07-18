@@ -7,6 +7,7 @@ A web-based tool that helps you identify and match colours from images. Perfect 
 ## Demo
 
 - [index.html](https://theogibbons.github.io/colour-matcher/index.html)
+- [color-average.html](https://theogibbons.github.io/colour-matcher/color-average.html)
 
 ## Features
 
